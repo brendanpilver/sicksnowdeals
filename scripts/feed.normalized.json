@@ -1,0 +1,61 @@
+[
+  {
+    "merchantName": "Test Merchant",
+    "network": "test",
+    "external_id": "board-001",
+    "category": "board",
+    "brand": "Burton",
+    "title": "Burton Custom Camber 156",
+    "canonical_url": "https://example.com/burton-custom",
+    "affiliate_url": "https://example.com/burton-custom?aff=123",
+    "image_url": "https://via.placeholder.com/800x600.png?text=Burton+Custom",
+    "price_cents": 64900,
+    "sale_price_cents": 54900,
+    "stock": "in_stock",
+    "attrs": {
+      "profile": "camber",
+      "flex": 6,
+      "shape": "directional",
+      "length_cm": 156,
+      "waist_width_mm": 252
+    }
+  },
+  {
+    "merchantName": "Test Merchant",
+    "network": "test",
+    "external_id": "boots-001",
+    "category": "boots",
+    "brand": "Ride",
+    "title": "Ride Lasso Boots",
+    "canonical_url": "https://example.com/ride-lasso",
+    "affiliate_url": "https://example.com/ride-lasso?aff=123",
+    "image_url": "https://via.placeholder.com/800x600.png?text=Ride+Lasso",
+    "price_cents": 34900,
+    "sale_price_cents": 29900,
+    "stock": "in_stock",
+    "attrs": {
+      "flex": 7,
+      "lacing": "boa",
+      "sizes_us": [8, 9, 10, 11]
+    }
+  },
+  {
+    "merchantName": "Test Merchant",
+    "network": "test",
+    "external_id": "bindings-001",
+    "category": "bindings",
+    "brand": "Union",
+    "title": "Union Force Bindings",
+    "canonical_url": "https://example.com/union-force",
+    "affiliate_url": "https://example.com/union-force?aff=123",
+    "image_url": "https://via.placeholder.com/800x600.png?text=Union+Force",
+    "price_cents": 29900,
+    "sale_price_cents": 25900,
+    "stock": "in_stock",
+    "attrs": {
+      "flex": 7,
+      "binding_size": ["M", "L"],
+      "mounting": ["2x4", "channel"]
+    }
+  }
+]
