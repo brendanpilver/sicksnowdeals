@@ -55,7 +55,7 @@ export default async function ProductDetailPage({
         ← Back to Gear Finder
       </a>
 
-      <div style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: 18 }}>
+      <div className="stackable-two-col--product">
         <div>
           {data.image_url ? (
             <img

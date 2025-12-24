@@ -146,7 +146,7 @@ export default async function Home({
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 18 }}>
+        <div className="stackable-two-col">
           <aside>
             <h3 style={{ marginTop: 0 }}>Gear Finder</h3>
 

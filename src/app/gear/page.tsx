@@ -53,7 +53,7 @@ export default async function GearPage({
   });
 
   return (
-    <main style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 18, padding: 18 }}>
+    <main className="stackable-two-col" style={{ padding: 18 }}>
       {/* LEFT SIDEBAR */}
       <aside>
         <h1>Gear Finder</h1>
