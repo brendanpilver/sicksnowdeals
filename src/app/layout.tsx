@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,6 +27,20 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+        <footer
+          style={{
+            marginTop: 32,
+            padding: "20px 16px 32px",
+            borderTop: "1px solid #e5e5e5",
+            display: "flex",
+            justifyContent: "center",
+            gap: 18,
+            fontSize: 14,
+          }}
+        >
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/terms">Terms of Use</Link>
+        </footer>
       </body>
     </html>
   );
