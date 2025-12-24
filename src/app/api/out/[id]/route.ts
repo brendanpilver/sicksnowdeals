@@ -3,9 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
-  const { id } = await context.params;
+  { params }: { params: Promise<{ id: string }> }
+): Promise<Response> {
+  const { id } = await params;
 
   const supabase = createClient(
     process.env.SUPABASE_URL!,
@@ -18,8 +18,12 @@ export async function GET(
     .eq("id", id)
     .maybeSingle();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+  if (!product) {
+    return Response.json({ error: "Not found" }, { status: 404 });
+  }
 
   const sessionId = req.cookies.get("sb_session")?.value ?? crypto.randomUUID();
   const ua = req.headers.get("user-agent") ?? "";
@@ -35,8 +39,10 @@ export async function GET(
       referrer_path: ref,
       user_agent: ua,
     })
-    .then(() => {})
-    .catch(() => {});
+    .then(
+      () => {},
+      () => {}
+    );
 
   const dest = product.affiliate_url || product.canonical_url;
   if (!dest) {
@@ -53,5 +59,6 @@ export async function GET(
       maxAge: 60 * 60 * 24 * 30,
     });
   }
+
   return res;
 }

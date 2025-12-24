@@ -2,10 +2,11 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 import fs from "node:fs";
 import path from "node:path";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 type Category = "board" | "boots" | "bindings";
 type Stock = "in_stock" | "out_of_stock" | "unknown";
+type MerchantRow = { id: string };
 
 type FeedProduct = {
   merchantName: string;
@@ -29,7 +30,7 @@ function cleanImageUrl(url?: string) {
 }
 
 async function ensureMerchant(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<any, "public", any>,
   name: string,
   network: string
 ) {
@@ -40,16 +41,21 @@ async function ensureMerchant(
     .maybeSingle();
 
   if (selErr) throw selErr;
-  if (existing?.id) return existing.id as string;
+  const existingMerchant = existing as MerchantRow | null;
+  if (existingMerchant?.id) return existingMerchant.id;
 
   const { data: inserted, error: insErr } = await supabase
     .from("merchants")
-    .insert({ name, network })
+    .insert({ name, network } as any)
     .select("id")
     .single();
 
   if (insErr) throw insErr;
-  return inserted.id as string;
+  const insertedMerchant = inserted as MerchantRow | null;
+  if (!insertedMerchant?.id) {
+    throw new Error("Failed to insert merchant (missing id)");
+  }
+  return insertedMerchant.id;
 }
 
 async function main() {
@@ -62,7 +68,9 @@ async function main() {
     );
   }
 
-  const supabase = createClient(url, serviceKey);
+  // Using any here keeps the script flexible without generated Supabase types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const supabase = createClient<any>(url, serviceKey);
 
   const feedPath = path.join(process.cwd(), "scripts", "feed.normalized.json");
   const raw = fs.readFileSync(feedPath, "utf8");

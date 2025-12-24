@@ -47,6 +47,7 @@ export default async function ProductDetailPage({
 
   const priceToShow = data.sale_price_cents ?? data.price_cents ?? null;
   const attrs = (data.product_attributes?.[0]?.attrs ?? {}) as Record<string, any>;
+  const merchant = Array.isArray(data.merchants) ? data.merchants[0] : data.merchants;
 
   return (
     <main style={{ padding: 18, maxWidth: 1000, margin: "0 auto", display: "grid", gap: 14 }}>
@@ -106,10 +107,10 @@ export default async function ProductDetailPage({
           </div>
 
           <div style={{ color: "#666", fontSize: 14 }}>
-            {data.merchants?.name ? (
+            {merchant?.name ? (
               <>
-                Sold by <b>{data.merchants.name}</b>
-                {data.merchants.network ? ` (${data.merchants.network})` : ""}
+                Sold by <b>{merchant.name}</b>
+                {merchant.network ? ` (${merchant.network})` : ""}
               </>
             ) : (
               "Merchant unknown"

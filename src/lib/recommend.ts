@@ -15,12 +15,16 @@ export type QuizAnswers = {
 
 export type ProductWithAttrs = {
   id: string;
+  merchant_id: string;
   category: "board" | "boots" | "bindings";
   brand: string | null;
   title: string;
   image_url: string | null;
+  currency: string;
   price_cents: number | null;
   sale_price_cents: number | null;
+  stock: string;
+  last_seen_at: string | null;
   merchant_name: string | null;
   attrs: Record<string, any>;
 };
@@ -129,7 +133,7 @@ export async function fetchCandidates(category?: "board" | "boots" | "bindings")
     .from("products")
     .select(
       `
-      id, category, brand, title, image_url, price_cents, sale_price_cents,
+      id, merchant_id, category, brand, title, image_url, currency, price_cents, sale_price_cents, stock, last_seen_at,
       merchants:merchant_id ( name ),
       product_attributes ( attrs )
     `
@@ -144,12 +148,16 @@ export async function fetchCandidates(category?: "board" | "boots" | "bindings")
     const attrs = r.product_attributes?.[0]?.attrs ?? {};
     return {
       id: r.id,
+      merchant_id: r.merchant_id ?? "",
       category: r.category,
       brand: r.brand ?? null,
       title: r.title,
       image_url: r.image_url ?? null,
+      currency: r.currency ?? "USD",
       price_cents: r.price_cents ?? null,
       sale_price_cents: r.sale_price_cents ?? null,
+      stock: r.stock ?? "unknown",
+      last_seen_at: r.last_seen_at ?? null,
       merchant_name: r.merchants?.name ?? null,
       attrs,
     } as ProductWithAttrs;
