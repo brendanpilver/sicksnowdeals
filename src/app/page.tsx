@@ -94,10 +94,11 @@ export default async function Home({
           <Link href="/bindings">Bindings</Link>
         </div>
 
-        {/* Simple affiliate disclosure (important) */}
-        <p style={{ margin: "10px 0 0", fontSize: 12, opacity: 0.8 }}>
-          Some links are affiliate links. If you buy, we may earn a commission at no extra cost to you.
-        </p>
+        {/* Affiliate disclosure (required for networks) */}
+        <div style={{ margin: "10px 0 0", fontSize: 12, opacity: 0.85, display: "grid", gap: 2 }}>
+          <div>As an Amazon Associate I earn from qualifying purchases.</div>
+          <div>Some links are affiliate links; if you buy, we may earn a commission at no extra cost to you.</div>
+        </div>
       </div>
 
       {/* Hottest deals */}

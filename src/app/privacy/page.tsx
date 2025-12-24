@@ -59,6 +59,15 @@ export default function PrivacyPolicyPage() {
       </section>
 
       <section style={sectionStyle}>
+        <h2 style={{ margin: 0 }}>Partners & Tracking</h2>
+        <p style={{ margin: 0 }}>
+          We work with Amazon Associates, Impact, and AvantLink to track outbound clicks and attribute commissions. Links
+          may redirect through tracking URLs and set or read cookies to confirm a purchase. We also log click events in
+          Supabase to detect abuse, improve recommendations, and measure performance. We do not sell personal data.
+        </p>
+      </section>
+
+      <section style={sectionStyle}>
         <h2 style={{ margin: 0 }}>Data Retention</h2>
         <p style={{ margin: 0 }}>
           We keep data only as long as needed for the purposes above or as required by law. We delete or anonymize data

@@ -41,6 +41,15 @@ export default function TermsPage() {
       </section>
 
       <section style={sectionStyle}>
+        <h2 style={{ margin: 0 }}>Independence</h2>
+        <p style={{ margin: 0 }}>
+          Sick Snow Deals is independent from the merchants and affiliate networks we list, including Amazon Associates,
+          Impact, and AvantLink. Listings do not mean endorsement, and participation in these programs does not affect
+          your price.
+        </p>
+      </section>
+
+      <section style={sectionStyle}>
         <h2 style={{ margin: 0 }}>Account & Submissions</h2>
         <p style={{ margin: 0 }}>
           If you submit information (e.g., quiz answers or feedback), you grant us permission to use it to operate and
@@ -53,6 +62,22 @@ export default function TermsPage() {
         <p style={{ margin: 0 }}>
           The site is provided “as is” without warranties of any kind. We do not guarantee accuracy, availability, or
           that deals will remain valid. You are responsible for verifying details with the merchant.
+        </p>
+      </section>
+
+      <section style={sectionStyle}>
+        <h2 style={{ margin: 0 }}>Pricing & Availability</h2>
+        <p style={{ margin: 0 }}>
+          Prices, discounts, and availability can change at any time. Information shown on our site may be delayed or
+          inaccurate; the merchant’s site is the source of truth.
+        </p>
+      </section>
+
+      <section style={sectionStyle}>
+        <h2 style={{ margin: 0 }}>Orders, Fulfillment, and Returns</h2>
+        <p style={{ margin: 0 }}>
+          Orders are placed with merchants, not with Sick Snow Deals. Merchants are responsible for fulfillment,
+          shipping, warranties, and returns. Please review the merchant’s terms before purchasing.
         </p>
       </section>
 

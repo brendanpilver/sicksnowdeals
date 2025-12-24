@@ -9,9 +9,9 @@ function money(cents?: number | null) {
 export default async function ProductDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
 
   const supabase = await supabaseServer();
 
@@ -115,6 +115,11 @@ export default async function ProductDetailPage({
             ) : (
               "Merchant unknown"
             )}
+          </div>
+
+          <div style={{ fontSize: 12, color: "#555", display: "grid", gap: 2 }}>
+            <div>As an Amazon Associate I earn from qualifying purchases.</div>
+            <div>Some links are affiliate links; we may earn a commission at no extra cost to you.</div>
           </div>
 
           <div style={{ display: "flex", gap: 10, marginTop: 6 }}>

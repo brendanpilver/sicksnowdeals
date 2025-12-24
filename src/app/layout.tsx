@@ -36,10 +36,17 @@ export default function RootLayout({
             justifyContent: "center",
             gap: 18,
             fontSize: 14,
+            flexWrap: "wrap",
           }}
         >
-          <Link href="/privacy">Privacy Policy</Link>
-          <Link href="/terms">Terms of Use</Link>
+          <div style={{ display: "grid", gap: 2, textAlign: "center" }}>
+            <div>As an Amazon Associate I earn from qualifying purchases.</div>
+            <div>Some links are affiliate links; we may earn a commission at no extra cost to you.</div>
+          </div>
+          <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms of Use</Link>
+          </div>
         </footer>
       </body>
     </html>
