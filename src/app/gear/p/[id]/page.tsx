@@ -1,16 +1,14 @@
 import { supabaseServer } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 function money(cents?: number | null) {
   if (cents == null) return "—";
   return `$${(cents / 100).toFixed(2)}`;
 }
 
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ProductDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
 
   const supabase = await supabaseServer();
@@ -39,8 +37,13 @@ export default async function ProductDetailPage({
     .maybeSingle();
 
   if (error) {
-    // You can log if you want: console.error(error)
-    notFound();
+    return (
+      <main style={{ padding: 18, maxWidth: 800, margin: "0 auto" }}>
+        <h1>Product unavailable</h1>
+        <p style={{ color: "#a00" }}>Could not load this product: {error.message}</p>
+        <a href="/gear">← Back to Gear Finder</a>
+      </main>
+    );
   }
 
   if (!data) notFound();

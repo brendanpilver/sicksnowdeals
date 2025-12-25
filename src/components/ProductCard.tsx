@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ProductRow } from "@/lib/db";
 
 export function ProductCard({
@@ -82,36 +83,37 @@ export function ProductCard({
       <div style={{ fontWeight: 700 }}>{formattedPrice}</div>
 
       {/* Actions */}
-      <a
-  	href={`/gear/p/${product.id}`}
-  	style={{
-    	display: "inline-block",
-    	textAlign: "center",
-    	padding: "8px 10px",
-    	borderRadius: 4,
-    	border: "1px solid #ddd",
-    	textDecoration: "none",
-    	fontWeight: 600,
-  }}
->
-  View details
-</a>
-<a
-        href={buyHref}
-        style={{
-          marginTop: 6,
-          display: "inline-block",
-          textAlign: "center",
-          padding: "8px 10px",
-          borderRadius: 4,
-          background: "#000",
-          color: "#fff",
-          textDecoration: "none",
-          fontWeight: 600,
-        }}
-      >
-        Buy
-      </a>
+      <div style={{ display: "grid", gap: 6 }}>
+        <Link
+          href={`/gear/p/${product.id}`}
+          style={{
+            display: "inline-block",
+            textAlign: "center",
+            padding: "8px 10px",
+            borderRadius: 4,
+            border: "1px solid #ddd",
+            textDecoration: "none",
+            fontWeight: 600,
+          }}
+        >
+          View details
+        </Link>
+        <a
+          href={buyHref}
+          style={{
+            display: "inline-block",
+            textAlign: "center",
+            padding: "8px 10px",
+            borderRadius: 4,
+            background: "#000",
+            color: "#fff",
+            textDecoration: "none",
+            fontWeight: 600,
+          }}
+        >
+          Buy
+        </a>
+      </div>
     </div>
   );
 }
