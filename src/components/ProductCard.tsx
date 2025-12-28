@@ -111,7 +111,7 @@ export function ProductCard({
             fontWeight: 600,
           }}
         >
-          Buy
+          View Deal
         </a>
       </div>
     </div>
