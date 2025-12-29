@@ -96,7 +96,7 @@ export function ProductCard({
             fontWeight: 600,
           }}
         >
-          View details
+          Details
         </Link>
         <a
           href={buyHref}
