@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { ProductCard } from "@/components/ProductCard";
 import { Filters } from "@/components/Filters";
@@ -49,7 +50,7 @@ export default async function Home({
     typeof sp.sort === "string" ? (sp.sort as SortKey) : "best_deal";
 
   const brands = await getBrandsForCategory(productCategory);
-  const products = await getProducts({
+  let products = await getProducts({
     category: productCategory,
     q,
     brand,
@@ -57,6 +58,24 @@ export default async function Home({
     maxPrice: max,
     sort,
   });
+
+  // Calculate discount percentage and sort by it if best_deal is selected
+  if (sort === 'best_deal') {
+    products = [...products].sort((a, b) => {
+      // Calculate discount percentage for product a
+      const aDiscount = a.sale_price_cents && a.price_cents && a.price_cents > 0 
+        ? ((a.price_cents - a.sale_price_cents) / a.price_cents) * 100 
+        : 0;
+      
+      // Calculate discount percentage for product b
+      const bDiscount = b.sale_price_cents && b.price_cents && b.price_cents > 0 
+        ? ((b.price_cents - b.sale_price_cents) / b.price_cents) * 100 
+        : 0;
+      
+      // Sort by highest discount percentage first, then by lowest price
+      return bDiscount - aDiscount || (a.sale_price_cents || 0) - (b.sale_price_cents || 0);
+    });
+  }
 
   // Hottest deals: must have an affiliate link, must have a discount, sorted by biggest discount.
   // If your column names differ, tell me and I’ll adjust.
@@ -70,42 +89,54 @@ export default async function Home({
     .limit(12);
 
   return (
-    <main style={{ padding: 20, display: "grid", gap: 16 }}>
+    <main style={{ padding: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 2, maxWidth: '800px', margin: '0 auto' }}>
+      {/* Hero Image */}
+      <div style={{ position: 'relative', width: '100%', maxWidth: '1000px', height: '500px', borderRadius: '8px', overflow: 'hidden' }}>
+        <Image
+          src="/images/sicksnowdeals_logo.svg"
+          alt="Sick Snow Deals Logo"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </div>
+      
       {/* Top strip */}
-      <div style={{ display: "grid", gap: 6 }}>
-        <h1 style={{ margin: 0 }}>Sick Snow Deals</h1>
-        <p style={{ margin: 0 }}>Sick deals, matched to how you ride.</p>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: 'center' }}>
+        {/*<h1 style={{ margin: 0 }}>Sick Snow Deals</h1>*/}
+        <h1 style={{ margin: 0 }}>🔥Sick Deals, Matched to How You Ride🔥</h1>
 
-        <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
-          {/* Quiz CTA (can point to a placeholder page for now) */}
+        <div style={{ display: "flex", gap: 12, justifyContent: 'center' }}>
+          {/* Quiz CTA (can point to a placeholder page for now) 
           <Link href="/quiz" style={{ fontWeight: 800 }}>
-            Find Your Ride →
+            Take the Find Your Ride Quiz →
           </Link>
 
-          {/* Browse deals button that jumps to the deals section */}
+          {/* Browse deals button that jumps to the deals section 
           <a href="#deals" style={{ fontWeight: 800 }}>
             Browse All The Deals ↓
-          </a>
+          </a>*/}
         </div>
 
-        <div style={{ display: "flex", gap: 12, marginTop: 6, flexWrap: "wrap" }}>
+        {/*<div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: 'center' }}>
           <Link href="/boards">Boards</Link>
           <Link href="/boots">Boots</Link>
           <Link href="/bindings">Bindings</Link>
-        </div>
+        </div>*/}
 
         {/* Affiliate disclosure (required for networks) */}
-        <div style={{ margin: "10px 0 0", fontSize: 12, opacity: 0.85, display: "grid", gap: 2 }}>
-          <div>As an Amazon Associate I earn from qualifying purchases.</div>
-          <div>Some links are affiliate links; if you buy, we may earn a commission at no extra cost to you.</div>
+        <div style={{ margin: "5px 0 0", fontSize: 14, opacity: 0.85, display: "grid", gap: 2, textAlign: 'center', maxWidth: '600px' }}>
+          {/*<div>As an Amazon Associate I earn from qualifying purchases.</div>*/}
+          <div style={{ margin: 5, color: "#ffffffff"}}>
+            <h3 style={{ margin: 0 }}>Some links are affiliate links; if you buy, we may earn a commission at no extra cost to you.</h3>
+          </div>
         </div>
       </div>
 
       {/* Hottest deals */}
-      <section id="deals" style={{ display: "grid", gap: 10 }}>
+      {/*<section id="deals" style={{ display: "grid", gap: 10 }}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
           <h2 style={{ margin: 0 }}>🔥 Hottest Deals Right Now</h2>
-          <Link href="/gear">See all →</Link>
         </div>
 
         {error ? (
@@ -127,7 +158,7 @@ export default async function Home({
             ))}
           </div>
         )}
-      </section>
+      </section>*/}
 
       {/* Full finder */}
       <section style={{ display: "grid", gap: 14 }}>
@@ -140,15 +171,13 @@ export default async function Home({
             flexWrap: "wrap",
           }}
         >
-          <h2 style={{ margin: 0 }}>Browse All Deals</h2>
-          <div style={{ color: "#555" }}>
-            Use the filters to find the right board, boots, or bindings.
+          <div style={{ margin: '10px auto', color: "#ffffffff", textAlign: 'center', maxWidth: '600px' }}>
+            <h3 style={{ margin: 0 }}>Use the filters to find the right board, boots, or bindings.</h3>
           </div>
         </div>
 
         <div className="stackable-two-col">
           <aside>
-            <h3 style={{ marginTop: 0 }}>Gear Finder</h3>
 
             {/* Category selector */}
             <form action="/" style={{ marginBottom: 12 }}>

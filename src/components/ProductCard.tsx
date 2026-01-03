@@ -8,11 +8,30 @@ export function ProductCard({
   product: ProductRow;
   showCategory?: boolean;
 }) {
-  const price =
-    product.sale_price_cents ?? product.price_cents ?? null;
+  const originalPriceCents = product.price_cents ?? null;
+  const salePriceCents = product.sale_price_cents ?? null;
 
-  const formattedPrice =
-    price != null ? `$${(price / 100).toFixed(2)}` : "—";
+  const formattedOriginalPrice =
+    originalPriceCents != null
+      ? `$${(originalPriceCents / 100).toFixed(2)}`
+      : "—";
+
+  const formattedSalePrice =
+    salePriceCents != null
+      ? `$${(salePriceCents / 100).toFixed(2)}`
+      : formattedOriginalPrice;
+
+  const percentOff =
+    salePriceCents != null &&
+    originalPriceCents != null &&
+    originalPriceCents > 0
+      ? Math.max(
+          0,
+          Math.round(
+            ((originalPriceCents - salePriceCents) / originalPriceCents) * 100,
+          ),
+        )
+      : null;
 
   const buyHref = `/api/out/${product.id}`;
 
@@ -80,7 +99,36 @@ export function ProductCard({
       )}
 
       {/* Price */}
-      <div style={{ fontWeight: 700 }}>{formattedPrice}</div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          gap: 8,
+          flexWrap: "wrap",
+        }}
+      >
+        {salePriceCents != null && originalPriceCents != null ? (
+          <>
+            <div
+              style={{
+                textDecoration: "line-through",
+                color: "#888",
+                fontWeight: 600,
+              }}
+            >
+              {formattedOriginalPrice}
+            </div>
+            <div style={{ fontWeight: 700 }}>{formattedSalePrice}</div>
+            {percentOff != null && (
+              <div style={{ color: "#d32f2f", fontWeight: 700, fontSize: 20 }}>
+                {percentOff}% off
+              </div>
+            )}
+          </>
+        ) : (
+          <div style={{ fontWeight: 700 }}>{formattedOriginalPrice}</div>
+        )}
+      </div>
 
       {/* Actions */}
       <div style={{ display: "grid", gap: 6 }}>
@@ -91,7 +139,6 @@ export function ProductCard({
             textAlign: "center",
             padding: "8px 10px",
             borderRadius: 4,
-            border: "1px solid #ddd",
             textDecoration: "none",
             fontWeight: 600,
           }}
@@ -101,17 +148,20 @@ export function ProductCard({
         <a
           href={buyHref}
           style={{
-            display: "inline-block",
-            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
             padding: "8px 10px",
             borderRadius: 4,
+            border: "1px solid #ddd",
             background: "#000",
             color: "#fff",
             textDecoration: "none",
             fontWeight: 600,
           }}
         >
-          View Deal
+          View Deal {product.merchant_name && `(${product.merchant_name})`}
         </a>
       </div>
     </div>

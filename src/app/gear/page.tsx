@@ -56,7 +56,6 @@ export default async function GearPage({
     <main className="stackable-two-col" style={{ padding: 18 }}>
       {/* LEFT SIDEBAR */}
       <aside>
-        <h1>Gear Finder</h1>
         <div style={{ fontSize: 12, color: "#555", margin: "6px 0 12px", display: "grid", gap: 2 }}>
           <div>As an Amazon Associate I earn from qualifying purchases.</div>
           <div>Some links are affiliate links; we may earn a commission at no extra cost to you.</div>

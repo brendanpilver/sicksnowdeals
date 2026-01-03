@@ -6,6 +6,7 @@ export type SortKey = "best_deal" | "price_asc" | "price_desc" | "newest";
 export type ProductRow = {
   id: string;
   merchant_id: string;
+  merchant_name: string | null;
   category: ProductCategory;
   brand: string | null;
   title: string;
@@ -30,7 +31,8 @@ export async function getProducts(params: {
   let query = supabase
     .from("products")
     .select(
-      "id,merchant_id,category,brand,title,image_url,currency,price_cents,sale_price_cents,stock,last_seen_at"
+      `id,merchant_id,category,brand,title,image_url,currency,price_cents,sale_price_cents,stock,last_seen_at,
+       merchants:merchant_id(name)`
     );
 
   // ✅ Only filter by category if provided (prevents enum errors)
@@ -61,8 +63,11 @@ export async function getProducts(params: {
     query = query
       .order("sale_price_cents", { ascending: false, nullsFirst: false })
       .order("price_cents", { ascending: false, nullsFirst: false });
+  } else if (sort === "best_deal") {
+    // We'll sort by discount percentage client-side
+    query = query.order("sale_price_cents", { ascending: true, nullsFirst: false });
   } else {
-    // best_deal OR price_asc
+    // price_asc
     query = query
       .order("sale_price_cents", { ascending: true, nullsFirst: false })
       .order("price_cents", { ascending: true, nullsFirst: false });
@@ -74,5 +79,9 @@ export async function getProducts(params: {
     throw new Error(`getProducts failed: ${error.message}`);
   }
 
-  return (data ?? []) as ProductRow[];
+  // Map the data to include merchant_name in the root
+  return (data ?? []).map(product => ({
+    ...product,
+    merchant_name: (product as any).merchants?.name ?? null
+  })) as ProductRow[];
 }

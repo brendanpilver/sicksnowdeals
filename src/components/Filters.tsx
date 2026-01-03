@@ -61,7 +61,7 @@ export function Filters({
         defaultValue={sp.get("sort") ?? "best_deal"}
         onChange={(e) => setParam("sort", e.target.value)}
       >
-        <option value="best_deal">Best deal (low to high)</option>
+        <option value="best_deal">Best deal (high to low)</option>
         <option value="price_asc">Price (low to high)</option>
         <option value="price_desc">Price (high to low)</option>
         <option value="newest">Newest</option>
